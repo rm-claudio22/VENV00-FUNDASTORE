@@ -1,0 +1,23 @@
+{% extends 'master.html' %}
+{% load bootstrap4 %}
+{% load static %}
+
+{% block cuerpo %}
+    <p><img style="width: 100%;height: auto;"src="{{ MEDIA_URL }}{{ receta.blg_banner }}" alt=""></p>
+    <h1>{{receta.blg_titulo}}</h1>
+    <p>
+        {% autoescape off %}
+        {{receta.blg_post}}
+        {% endautoescape %}
+    </p>
+    <div class="embed-responsive embed-responsive-21by9">
+        <iframe width="560" height="315" src="{{ receta.blg_video }}" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+    </div>
+    <hr>
+    <p style="text-align: right;">
+        Creado: {{ receta.blg_fecha_post }}
+        <br>Actualizado: {{ receta.blg_fecha_act }}
+    </p>
+
+
+{% endblock %}

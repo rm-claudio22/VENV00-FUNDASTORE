@@ -1,0 +1,15 @@
+{% extends 'master.html' %}
+{% load bootstrap4 %}
+{% load static %}
+
+{%block cuerpo%}
+<form method="POST">
+    {% csrf_token %}
+    
+    {% for field in formulario %}
+    {% bootstrap_field field %}
+    {% endfor %}
+    {% buttons submit='Enviar' reset="Cancelar" %}
+    {% endbuttons %}
+</form>
+{% endblock %}

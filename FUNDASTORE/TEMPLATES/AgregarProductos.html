@@ -1,0 +1,13 @@
+{% extends 'index.html' %}
+{% load bootstrap4 %}
+
+{%block cuerpo%}
+
+<form method="POST" enctype='multipart/form-data'>
+    {% csrf_token %}
+    {% bootstrap_form formulario %}
+    {% buttons submit='Guardar' reset="Cancel" %}
+        
+    {% endbuttons %}
+</form>
+{%endblock%}

@@ -1,0 +1,98 @@
+{% extends 'index.html' %}
+
+{% load static %}
+
+{%block cuerpo%}
+    <h1>Productos</h1>
+    <br>
+    <a class="btn btn-success btn-lg btn-block" href="{% url 'AgregarProductos' %}">
+        <svg class="bi" width="24" height="24" fill="currentColor">
+            <use xlink:href="{% static 'icons\bootstrap-icons.svg' %}#plus-circle-fill"/>
+        </svg>
+        <Area>NUEVO PRODUCTO</Area>
+    </a>
+    <br>
+    <input class="form-control" id="filtro" type="text" placeholder="Buscar..">
+    <br>
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th>NOMBRE</th>
+                <th>PRECIO</th>
+                <th>STOCK</th>
+                <th>DESCRIPCIÓN</th>
+                <th>OPCIONES</th>
+            </tr>
+        </thead>
+        <tbody id = "tblProductos">
+            {% for producto in productos %}
+                <tr>
+                    <td style="text-align:center;">
+                        <h6>{{producto.pro_nombre.upper}}</h6>
+                        <img style = "width:100px;height:auto;" src='{{ MEDIA_URL }}{{producto.pro_imagen}}'/>
+                    </td>
+                    <td style="text-align: right;">
+                        {{producto.pro_precio}} {{producto.pro_moneda}}
+                    </td>
+                    <td>{{producto.pro_stock}}</td>
+                    <td>{{producto.pro_descripcion}}</td>
+                    <td style="text-align: center;">
+                        <a class="btn btn-outline-info" href="{% url 'LeerProductos' producto.pro_id %}">
+                            <svg class="bi" width="16" height="16" fill="currentColor">
+                                <use xlink:href="{% static 'icons\bootstrap-icons.svg' %}#info-circle-fill"/>
+                            </svg>
+                        </a>
+                        <a class="btn btn-outline-warning" href="{% url 'EditarProductos' producto.pro_id %}">
+                            <svg class="bi" width="16" height="16" fill="currentColor">
+                                <use xlink:href="{% static 'icons\bootstrap-icons.svg' %}#pencil-fill"/>
+                            </svg>
+                        </a>
+                        <button class="btn btn-outline-danger" data-href="{% url 'EliminarProductos' producto.pro_id %}" data-toggle="modal" data-target="#confirm-delete">
+                            <svg class="bi" width="16" height="16" fill="currentColor">
+                                <use xlink:href="{% static 'icons\bootstrap-icons.svg' %}#eraser-fill"/>
+                            </svg>
+                        </button>
+                        
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    
+    </table>
+
+    <div class="modal fade" id="confirm-delete" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5>¿Desea eliminar este producto?</h5>
+                </div>
+                <div class="modal-body">
+                    Una vez eliminado el producto no podra recuperarlo
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                    <a class="btn btn-danger btn-ok">Delete</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+{%endblock%}
+
+{% block masScript %}
+    <script>
+        $(document).ready(function(){
+        $("#filtro").on("keyup", function() {
+            var value = $(this).val().toLowerCase();
+            $("#tblProductos tr").filter(function() {
+            $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+            });
+        });
+        });
+    </script>
+    <script>
+        $('#confirm-delete').on('show.bs.modal', function(e) {
+            $(this).find('.btn-ok').attr('href', $(e.relatedTarget).data('href'));
+            });
+    </script>
+{% endblock %}

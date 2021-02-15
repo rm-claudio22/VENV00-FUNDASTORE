@@ -1,0 +1,61 @@
+{% extends 'Master.html' %}
+{% load static %}
+{% load bootstrap4 %}
+
+{% block cuerpo %}
+<br>
+<div class="jumbotron" >
+    
+    <form method="post" action="{% url 'login' %}">
+    {% csrf_token %}
+    <table style="width: 80%; margin-left: auto;margin-right: auto;",>
+        <tr>
+            <td>
+                <p><img src="{% static 'imagenes\FUNDASTORE-logo.svg' %}" style="height:auto; width:100%;"></p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                {% if form.errors %}
+                <div class="alert alert-danger" role="alert">
+                    Usuario o contraseña incorrectos. Por favor intenta de nuevo.
+                </div>
+                {% endif %}
+
+                {% if next and next != '/' %}
+                <div class="alert alert-warning" role="alert">
+                    {% if user.is_authenticated %}
+                        Tu cuenta no posee los privilegios necesarios para visualizar esta página.
+                        <br>Para acceder a esta página debes iniciar sesión con una cuenta que si  posea estos privilegios. 
+                    {% else %}
+                        Debes iniciar sesión para ver esta pagina
+                    {% endif %}
+                </div>
+                {% endif %}
+            </td>
+        </tr>
+        <tr>
+            <td>{% bootstrap_field form.username %}</td>
+        </tr>
+        <tr>
+            <td>{% bootstrap_field form.password %}</td>
+        </tr>
+        <tr>
+            <td>
+                {% buttons %}
+                <input class="btn btn-success btn-block"type="submit" value="login">
+                <input type="hidden" name="next" value="{{ next }}">
+                {% endbuttons %}
+            </td>
+        </tr>
+        <tr>
+            <td>
+                {# Assumes you setup the password_reset view in your URLconf #}
+                <p><a href="{% url 'password_reset' %}">Lost password?</a></p>
+            </td>
+        </tr>
+    </table>
+    </form>
+
+</div>
+{% endblock %}

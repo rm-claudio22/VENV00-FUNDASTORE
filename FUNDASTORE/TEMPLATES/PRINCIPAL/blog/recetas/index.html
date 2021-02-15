@@ -1,0 +1,32 @@
+{% extends 'master.html' %}
+{% load bootstrap4 %}
+{% load static %}
+
+{% block cuerpo %}
+
+<img style="width: 100%;height: auto;"src="{% static 'imagenes/recetas_banner.jpg' %}"/>
+<br><br>
+<div class="row">
+    {% for receta in recetas %}
+    {% if forloop.counter0 != 0 and forloop.counter0|divisibleby:3 != 0 %}
+</div>
+<br>
+<div class="row">
+    {% endif %}
+    <div class="col-sm-4">
+        <img  style="width: 100%;height: auto;"src="{{ MEDIA_URL }}{{receta.blg_banner}}" alt="Card image cap">
+        <div class="card-body" style="height:200px;overflow: hidden; background-color: lightcyan;">
+          <h5 class="card-title">{{receta.blg_titulo}}</h5>
+          <p class="card-text">{{receta.blg_descripcion}}</p>
+          
+        </div>
+        <div class="card-body" style="background-color: lightcyan;">
+            <a href="{% url 'pricipal-blog-recetas-detalle' receta.blg_id %}" class="btn btn btn-info btn-block">Ver receta</a>
+        </div>
+    </div>
+
+    {%endfor%}
+  </div>
+
+
+{% endblock %}

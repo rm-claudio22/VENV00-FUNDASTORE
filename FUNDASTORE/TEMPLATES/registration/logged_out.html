@@ -1,0 +1,27 @@
+{% extends 'Master.html' %}
+{% load static %}
+{% load bootstrap4 %}
+
+{% block cuerpo %}
+<br>
+<div class="jumbotron" >
+    
+    <form method="post" action="{% url 'login' %}">
+    {% csrf_token %}
+    <table style="width: 80%; margin-left: auto;margin-right: auto;",>
+        <tr>
+            <td>
+                <p><img src="{% static 'imagenes\FUNDASTORE-logo.svg' %}" style="height:auto; width:100%;"></p>
+            </td>
+        </tr>
+        <tr>
+            <td style="text-align: center;">
+                <h1>¡Has finalizado tu sesión!</h1>
+                <h6>Haz clic <a href="{% url 'login'%}?next=/">aquí</a> para iniciar sesión nuevamente </h6>
+            </td>
+        </tr>
+    </table>
+    </form>
+
+</div>
+{% endblock %}
